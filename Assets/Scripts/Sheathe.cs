@@ -9,7 +9,8 @@ public class Sheathe : MonoBehaviour
     bool timeSlowed = false;
     public float maxSlowTime = 2;
     float timer = 0;
-    public Slider slider;
+    public GameObject slider;
+    public float rechargeRate = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -20,22 +21,25 @@ public class Sheathe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //subracts from or adds to time slow timer depending on if time has slowed or not
         if(timeSlowed && timer > 0 && Time.deltaTime / Time.timeScale < 1)
         {
             timer -= Time.deltaTime / Time.timeScale;
-            Debug.Log(Time.deltaTime / Time.timeScale);
+            //Debug.Log(Time.deltaTime / Time.timeScale);
         }
         else if(!timeSlowed && timer < maxSlowTime)
         {
-            timer += Time.deltaTime;
+            timer += Time.deltaTime * rechargeRate;
         }
 
+        //if time runs out the time slow effect will end
         if(timeSlowed && timer <= 0)
         {
             endTimeSlow();
         }
 
-        slider.value = timer/maxSlowTime;
+        //updates slider
+        slider.transform.localScale = new Vector3(slider.transform.localScale.x, slider.transform.localScale.y, timer/maxSlowTime);
     }
 
     //slows time
@@ -59,7 +63,7 @@ public class Sheathe : MonoBehaviour
     {
         if (timeSlowed)
         {
-            timer -= 1;
+            timer -= 4;
             if(timer < 0)
             {
                 timer = 0;
