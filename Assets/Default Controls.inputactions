@@ -1,0 +1,34 @@
+{
+    "name": "Default Controls",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "6b3ffc4a-f122-4139-b351-86d37242c693",
+            "actions": [
+                {
+                    "name": "TriggerPull",
+                    "type": "Button",
+                    "id": "19f6abc7-4d98-4885-affc-f609d28ab59b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f1e988a9-bb7c-46f3-bad6-a136e690c407",
+                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerPull",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
