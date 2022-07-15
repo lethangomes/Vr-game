@@ -11,11 +11,12 @@ public class Sheathe : MonoBehaviour
     float timer = 0;
     public GameObject slider;
     public float rechargeRate = 2;
+    GameController gameController;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
     }
 
     // Update is called once per frame
@@ -42,12 +43,19 @@ public class Sheathe : MonoBehaviour
         slider.transform.localScale = new Vector3(slider.transform.localScale.x, slider.transform.localScale.y, timer/maxSlowTime);
     }
 
+    public void unsheathe()
+    {
+        gameController.playAudio("Unsheathe", GetComponent<AudioSource>());
+    }
+
     //slows time
     public void slowTime()
     {
         Time.timeScale = timeSlowAmount;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         timeSlowed = true;
+
+        adjustPitchToTimeScale();
     }
 
     //resumes time
@@ -56,6 +64,23 @@ public class Sheathe : MonoBehaviour
         Time.timeScale = 1;
         Time.fixedDeltaTime = 0.02f;
         timeSlowed = false;
+
+        adjustPitchToTimeScale();
+    }
+
+    public void adjustPitchToTimeScale()
+    {
+        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
+        int scalar = 1;
+        if (Time.timeScale < 1)
+        {
+            scalar = 10;
+        }
+        Debug.Log("hey");
+        for (int i = 0; i < audioSources.Length; i++)
+        {
+            audioSources[i].pitch = Time.timeScale * scalar;
+        }
     }
 
     //when a blade beam is fired, ends time slow and resets timer if time is slowed

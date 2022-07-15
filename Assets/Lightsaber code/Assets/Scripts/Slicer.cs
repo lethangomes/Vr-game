@@ -42,6 +42,8 @@ namespace Assets.Scripts
 
             SetupCollidersAndRigidBodys(ref positiveObject, positiveSideMeshData, sliceable.UseGravity);
             SetupCollidersAndRigidBodys(ref negativeObject, negativeSideMeshData, sliceable.UseGravity);
+            positiveObject.AddComponent<CutObject>();
+            negativeObject.AddComponent<CutObject>();
 
             return new GameObject[] { positiveObject, negativeObject};
         }        
@@ -91,5 +93,6 @@ namespace Assets.Scripts
             var rb = gameObject.AddComponent<Rigidbody>();
             rb.useGravity = useGravity;
         }
+
     }
 }

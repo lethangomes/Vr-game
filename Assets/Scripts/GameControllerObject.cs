@@ -15,6 +15,12 @@ public class GameControllerObject : MonoBehaviour
         gameController = new GameController();
     }
 
+    void Update()
+    {
+        
+        
+    }
+
     public GameController getGameController()
     {
         return gameController;

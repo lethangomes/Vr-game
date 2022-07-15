@@ -2,15 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
+using TMPro;
 
 public class Lighsaber : MonoBehaviour
 {
     //The number of vertices to create per frame
     private const int NUM_VERTICES = 12;
 
+    /*
     [SerializeField]
     [Tooltip("The blade object")]
-    private GameObject _blade = null;
+    private GameObject _blade = null;*/
      
     [SerializeField]
     [Tooltip("The empty game object located at the tip of the blade")]
@@ -20,13 +24,15 @@ public class Lighsaber : MonoBehaviour
     [Tooltip("The empty game object located at the base of the blade")]
     private GameObject _base = null;
 
+    /*
     [SerializeField]
     [Tooltip("The mesh object with the mesh filter and mesh renderer")]
-    private GameObject _meshParent = null;
+    private GameObject _meshParent = null;*/
 
+    /*
     [SerializeField]
     [Tooltip("The number of frame that the trail should be rendered for")]
-    private int _trailFrameLength = 3;
+    private int _trailFrameLength = 3;*/
 
     [SerializeField]
     [ColorUsage(true, true)]
@@ -37,6 +43,9 @@ public class Lighsaber : MonoBehaviour
     [Tooltip("The amount of force applied to each side of a slice")]
     private float _forceAppliedToCut = 3f;
 
+    public GameObject explosion;
+    public GameObject scoreDisplay;
+
     private Mesh _mesh;
     private Vector3[] _vertices;
     private int[] _triangles;
@@ -46,6 +55,9 @@ public class Lighsaber : MonoBehaviour
     private Vector3 _triggerEnterTipPosition;
     private Vector3 _triggerEnterBasePosition;
     private Vector3 _triggerExitTipPosition;
+
+    private GameController gameController;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -70,6 +82,9 @@ public class Lighsaber : MonoBehaviour
         //Set starting position for tip and base
         _previousTipPosition = _tip.transform.position;
         _previousBasePosition = _base.transform.position;
+
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
+        audioSource = GetComponent<AudioSource>();
     }
     
     void LateUpdate()
@@ -129,7 +144,13 @@ public class Lighsaber : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        _triggerExitTipPosition = _tip.transform.position;
+
+        if(other.tag == "Explosive")
+        {
+            Instantiate(explosion, other.gameObject.transform.position, Quaternion.identity);
+            _triggerExitTipPosition = _tip.transform.position;
+        }
+        
 
         //Create a triangle between the tip and base so that we can get the normal
         Vector3 side1 = _triggerExitTipPosition - _triggerEnterTipPosition;
@@ -162,8 +183,61 @@ public class Lighsaber : MonoBehaviour
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
         Destroy(other.gameObject);
 
+
         Rigidbody rigidbody = slices[1].GetComponent<Rigidbody>();
         Vector3 newNormal = transformedNormal + Vector3.up * _forceAppliedToCut;
         rigidbody.AddForce(newNormal, ForceMode.Impulse);
+
+        //calculate score
+        float[] volumes = { VolumeOfMesh(slices[0].GetComponent<MeshFilter>().mesh), VolumeOfMesh(slices[1].GetComponent<MeshFilter>().mesh) };
+        float percentDiff = Math.Abs(volumes[1] - volumes[0]) / ((volumes[0] + volumes[1]) / 2);
+        int score = (int)((1 / percentDiff) * 10) * 10;
+        if(other.tag == "Cut")
+        {
+            score /= other.name.Count(f => (f == '_'));
+        }
+        if(score > 1000)
+        {
+            score = 1000;
+        }
+        GameObject scoreDisplayClone = Instantiate(scoreDisplay, other.gameObject.transform.position, Quaternion.identity);
+        scoreDisplayClone.GetComponent<TextMeshPro>().SetText(score + "");
+        Vector3 scale = new Vector3(((float)score /500) + 0.25f, ((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f);
+        scoreDisplayClone.transform.localScale = scale;
+
+        //play cutting noise
+        if (!audioSource.isPlaying)
+        {
+            gameController.playAudio("Cut", audioSource, 0.5f);
+        }
+    }
+
+
+    //methods for finding the volume of meshes
+    //https://stackoverflow.com/questions/57236085/get-volume-of-an-object-in-unity3d
+    float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        float v321 = p3.x * p2.y * p1.z;
+        float v231 = p2.x * p3.y * p1.z;
+        float v312 = p3.x * p1.y * p2.z;
+        float v132 = p1.x * p3.y * p2.z;
+        float v213 = p2.x * p1.y * p3.z;
+        float v123 = p1.x * p2.y * p3.z;
+        return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
+    }
+
+    float VolumeOfMesh(Mesh mesh)
+    {
+        float volume = 0;
+        Vector3[] vertices = mesh.vertices;
+        int[] triangles = mesh.triangles;
+        for (int i = 0; i < mesh.triangles.Length; i += 3)
+        {
+            Vector3 p1 = vertices[triangles[i + 0]];
+            Vector3 p2 = vertices[triangles[i + 1]];
+            Vector3 p3 = vertices[triangles[i + 2]];
+            volume += SignedVolumeOfTriangle(p1, p2, p3);
+        }
+        return Mathf.Abs(volume);
     }
 }
