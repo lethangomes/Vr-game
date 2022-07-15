@@ -2812,6 +2812,7 @@ MonoBehaviour:
   marker: {fileID: 9211205624950531783, guid: 118d3d241227e7f46b5e8c96033173e1, type: 3}
   marker2: {fileID: 3502943587125803303, guid: c1d1acd8407279d46ab5585ce4555def, type: 3}
   beam: {fileID: 2886467412609808213, guid: 416ef0ac341133a46b709dfc6d1d342b, type: 3}
+  AACone: {fileID: 2906878429392074316, guid: a43ebb631fbafc241b6753f0c2a277c4, type: 3}
   bladeCollider: {fileID: 1599365135}
   sheathe: {fileID: 5222077470156120398}
   targetV: 1

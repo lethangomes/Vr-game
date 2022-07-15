@@ -33,15 +33,8 @@ public class bladeBeam : MonoBehaviour
             lastTimeScale = Time.timeScale;
         }
 
-        /*
-        //aim assist
-        if(Time.timeScale == 1)
-        {
-            pointer.transform.LookAt(FindClosestObject().transform);
-            rb.AddForce(pointer.transform.forward * aimAssistPower * Time.deltaTime);
-        }
-        */
     }
+
 
     public GameObject FindClosestObject()
     {

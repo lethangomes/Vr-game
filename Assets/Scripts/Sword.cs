@@ -10,6 +10,7 @@ public class Sword : MonoBehaviour
     public GameObject marker;
     public GameObject marker2;
     public GameObject beam;
+    public GameObject AACone;
     GameObject playerCamera;
 
     public Collider bladeCollider;
@@ -64,7 +65,16 @@ public class Sword : MonoBehaviour
                 Vector3 midpoint = new Vector3((initialPos.x + x)/2, (initialPos.y+y)/2, (initialPos.z+z)/2);
                 GameObject midMarker = Instantiate(marker2, midpoint, Quaternion.identity);
                 midMarker.transform.rotation = getAngleMidSwing(positionsDuringSwing, midpoint);
+
+                //creates aim assist cone
+                GameObject cone = Instantiate(AACone, midpoint, Quaternion.identity);
+                cone.transform.rotation = getAngleMidSwing(positionsDuringSwing, midpoint);
+
+                //cone.transform.Rotate(new Vector3(0, 0, 180));
                 midMarker.transform.Rotate(new Vector3(90, 0, 0));
+
+                //sets projectile to cone parent
+                cone.transform.SetParent(midMarker.transform);
 
                 //creates projectile hitbox and makes it child of midpoint marker
                 GameObject projectile = Instantiate(beam, midpoint, Quaternion.identity);
