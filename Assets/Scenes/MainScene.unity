@@ -2383,7 +2383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &963748549
 Transform:
   m_ObjectHideFlags: 0
@@ -2837,6 +2837,7 @@ GameObject:
   - component: {fileID: 1599365134}
   - component: {fileID: 1599365133}
   - component: {fileID: 1599365135}
+  - component: {fileID: 1599365136}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -2919,7 +2920,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599365126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -3105,7 +3106,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599365126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee323f5e1ea3d984c9e3d5516ac8d25a, type: 3}
   m_Name: 
@@ -3300,6 +3301,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 1.4744538, z: 1.0000002}
   m_Center: {x: 0.000000062088176, y: 0.18661553, z: -0.00000009313226}
+--- !u!114 &1599365136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599365126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a35bd3743b511345ab88e2d4e53b97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tip: {fileID: 1065245753}
+  marker: {fileID: 9211205624950531783, guid: 118d3d241227e7f46b5e8c96033173e1, type: 3}
+  cylinder: {fileID: 7356011701457466432, guid: 613f359e32041834b8d0ef2fabff2c05, type: 3}
+  projectile: {fileID: 3502943587125803303, guid: c1d1acd8407279d46ab5585ce4555def, type: 3}
+  targetV: 15
 --- !u!1 &1610463902
 GameObject:
   m_ObjectHideFlags: 0
