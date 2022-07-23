@@ -2495,8 +2495,39 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065245753}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1599365127}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &1117977736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1117977737}
+  m_Layer: 0
+  m_Name: Reference Point
+  m_TagString: Sword Reference Point
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1117977737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117977736}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2860,6 +2891,7 @@ Transform:
   - {fileID: 5196445908029303974}
   - {fileID: 1065245754}
   - {fileID: 733581459}
+  - {fileID: 1117977737}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -3317,7 +3349,9 @@ MonoBehaviour:
   marker: {fileID: 9211205624950531783, guid: 118d3d241227e7f46b5e8c96033173e1, type: 3}
   cylinder: {fileID: 7356011701457466432, guid: 613f359e32041834b8d0ef2fabff2c05, type: 3}
   projectile: {fileID: 3502943587125803303, guid: c1d1acd8407279d46ab5585ce4555def, type: 3}
+  bladeParent: {fileID: 8790609949740870152, guid: e8ceeea5b30904845a914cbf65ea0ca3, type: 3}
   targetV: 15
+  maxBeamLength: 3
 --- !u!1 &1610463902
 GameObject:
   m_ObjectHideFlags: 0

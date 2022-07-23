@@ -20,6 +20,41 @@ public class Sliceable : MonoBehaviour
     [SerializeField]
     private bool _smoothVertices = false;
 
+    bool hasBeenCut = false;
+    public bool beingCut = false;
+    public bool cuttingDisabled = true;
+    float timer = 0;
+
+    public void cut()
+    {
+        if(!hasBeenCut && !cuttingDisabled)
+        {
+            beingCut = true;
+        }
+    }
+
+    public void endCut()
+    {
+        beingCut = false;
+    }
+    
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+        if (cuttingDisabled)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.1)
+            {
+                cuttingDisabled = false;
+            }
+        }
+    }
+
     public bool IsSolid
     {
         get

@@ -136,80 +136,102 @@ public class Lighsaber : MonoBehaviour
         */
     }
 
+    public void setTip(GameObject newTip)
+    {
+        _tip = newTip;
+    }
+
+    public void setBase(GameObject newBase)
+    {
+        _base = newBase;
+    }
+
+   
+
     private void OnTriggerEnter(Collider other)
     {
         _triggerEnterTipPosition = _tip.transform.position;
         _triggerEnterBasePosition = _base.transform.position;
+
+        if(other.gameObject.GetComponent<Sliceable>() != null)
+        {
+            other.gameObject.GetComponent<Sliceable>().cut();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
-        if(other.tag == "Explosive")
+        if (other.gameObject.GetComponent<Sliceable>() != null && other.gameObject.GetComponent<Sliceable>().beingCut)
         {
-            Instantiate(explosion, other.gameObject.transform.position, Quaternion.identity);
-            _triggerExitTipPosition = _tip.transform.position;
+            if (other.tag == "Explosive")
+            {
+                Instantiate(explosion, other.gameObject.transform.position, Quaternion.identity);
+                _triggerExitTipPosition = _tip.transform.position;
+            }
+
+
+            //Create a triangle between the tip and base so that we can get the normal
+            Vector3 side1 = _triggerExitTipPosition - _triggerEnterTipPosition;
+            Vector3 side2 = _triggerExitTipPosition - _triggerEnterBasePosition;
+
+            //Get the point perpendicular to the triangle above which is the normal
+            //https://docs.unity3d.com/Manual/ComputingNormalPerpendicularVector.html
+            Vector3 normal = Vector3.Cross(side1, side2).normalized;
+
+            //Transform the normal so that it is aligned with the object we are slicing's transform.
+            Vector3 transformedNormal = ((Vector3)(other.gameObject.transform.localToWorldMatrix.transpose * normal)).normalized;
+
+            //Get the enter position relative to the object we're cutting's local transform
+            Vector3 transformedStartingPoint = other.gameObject.transform.InverseTransformPoint(_triggerEnterTipPosition);
+
+            Plane plane = new Plane();
+
+            plane.SetNormalAndPosition(
+                    transformedNormal,
+                    transformedStartingPoint);
+
+            var direction = Vector3.Dot(Vector3.up, transformedNormal);
+
+            //Flip the plane so that we always know which side the positive mesh is on
+            if (direction < 0)
+            {
+                plane = plane.flipped;
+            }
+
+            GameObject[] slices = Slicer.Slice(plane, other.gameObject);
+            Destroy(other.gameObject);
+
+
+            Rigidbody rigidbody = slices[1].GetComponent<Rigidbody>();
+            Vector3 newNormal = transformedNormal + Vector3.up * _forceAppliedToCut;
+            rigidbody.AddForce(newNormal, ForceMode.Impulse);
+
+            //calculate score
+            float[] volumes = { VolumeOfMesh(slices[0].GetComponent<MeshFilter>().mesh), VolumeOfMesh(slices[1].GetComponent<MeshFilter>().mesh) };
+            float percentDiff = Math.Abs(volumes[1] - volumes[0]) / ((volumes[0] + volumes[1]) / 2);
+            int score = (int)((1 / percentDiff) * 10) * 10;
+            if (other.tag == "Cut")
+            {
+                score /= other.name.Count(f => (f == '_'));
+            }
+            if (score > 1000)
+            {
+                score = 1000;
+            }
+            GameObject scoreDisplayClone = Instantiate(scoreDisplay, other.gameObject.transform.position, Quaternion.identity);
+            scoreDisplayClone.GetComponent<TextMeshPro>().SetText(score + "");
+            Vector3 scale = new Vector3(((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f);
+            scoreDisplayClone.transform.localScale = scale;
+
+            //play cutting noise
+            if (!audioSource.isPlaying)
+            {
+                gameController.playAudio("Cut", audioSource, 0.5f);
+            }
+
+            other.gameObject.GetComponent<Sliceable>().endCut();
         }
         
-
-        //Create a triangle between the tip and base so that we can get the normal
-        Vector3 side1 = _triggerExitTipPosition - _triggerEnterTipPosition;
-        Vector3 side2 = _triggerExitTipPosition - _triggerEnterBasePosition;
-
-        //Get the point perpendicular to the triangle above which is the normal
-        //https://docs.unity3d.com/Manual/ComputingNormalPerpendicularVector.html
-        Vector3 normal = Vector3.Cross(side1, side2).normalized;
-
-        //Transform the normal so that it is aligned with the object we are slicing's transform.
-        Vector3 transformedNormal = ((Vector3)(other.gameObject.transform.localToWorldMatrix.transpose * normal)).normalized;
-
-        //Get the enter position relative to the object we're cutting's local transform
-        Vector3 transformedStartingPoint = other.gameObject.transform.InverseTransformPoint(_triggerEnterTipPosition);
-
-        Plane plane = new Plane();
-
-        plane.SetNormalAndPosition(
-                transformedNormal,
-                transformedStartingPoint);
-
-        var direction = Vector3.Dot(Vector3.up, transformedNormal);
-
-        //Flip the plane so that we always know which side the positive mesh is on
-        if (direction < 0)
-        {
-            plane = plane.flipped;
-        }
-
-        GameObject[] slices = Slicer.Slice(plane, other.gameObject);
-        Destroy(other.gameObject);
-
-
-        Rigidbody rigidbody = slices[1].GetComponent<Rigidbody>();
-        Vector3 newNormal = transformedNormal + Vector3.up * _forceAppliedToCut;
-        rigidbody.AddForce(newNormal, ForceMode.Impulse);
-
-        //calculate score
-        float[] volumes = { VolumeOfMesh(slices[0].GetComponent<MeshFilter>().mesh), VolumeOfMesh(slices[1].GetComponent<MeshFilter>().mesh) };
-        float percentDiff = Math.Abs(volumes[1] - volumes[0]) / ((volumes[0] + volumes[1]) / 2);
-        int score = (int)((1 / percentDiff) * 10) * 10;
-        if(other.tag == "Cut")
-        {
-            score /= other.name.Count(f => (f == '_'));
-        }
-        if(score > 1000)
-        {
-            score = 1000;
-        }
-        GameObject scoreDisplayClone = Instantiate(scoreDisplay, other.gameObject.transform.position, Quaternion.identity);
-        scoreDisplayClone.GetComponent<TextMeshPro>().SetText(score + "");
-        Vector3 scale = new Vector3(((float)score /500) + 0.25f, ((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f);
-        scoreDisplayClone.transform.localScale = scale;
-
-        //play cutting noise
-        if (!audioSource.isPlaying)
-        {
-            gameController.playAudio("Cut", audioSource, 0.5f);
-        }
     }
 
 
