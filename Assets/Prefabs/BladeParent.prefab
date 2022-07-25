@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1143095542272170918}
-  - component: {fileID: 1188963681033234133}
   - component: {fileID: -8243239240168357533}
   m_Layer: 0
   m_Name: BladeParent
@@ -33,24 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1188963681033234133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8790609949740870152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a31f1a6b2bb3431ba4edb776fa66aff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tip: {fileID: 0}
-  _base: {fileID: 0}
-  _colour: {r: 1, g: 0, b: 0, a: 1}
-  _forceAppliedToCut: 3
-  explosion: {fileID: 1439201324721806009, guid: c548b1a62e7748c4c852cb28654b98ef, type: 3}
-  scoreDisplay: {fileID: 7445466269523488664, guid: fc0b352ca2d57844087e15aefba0bf28, type: 3}
 --- !u!54 &-8243239240168357533
 Rigidbody:
   m_ObjectHideFlags: 0

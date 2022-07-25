@@ -222,6 +222,7 @@ public class Lighsaber : MonoBehaviour
             scoreDisplayClone.GetComponent<TextMeshPro>().SetText(score + "");
             Vector3 scale = new Vector3(((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f);
             scoreDisplayClone.transform.localScale = scale;
+            Destroy(scoreDisplayClone, 10);
 
             //play cutting noise
             if (!audioSource.isPlaying)

@@ -10,7 +10,6 @@ public class bladeBeam : MonoBehaviour
     GameController gameController;
     public float lastTimeScale = 1;
     float timer = 0;
-    public GameObject pointer;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +17,6 @@ public class bladeBeam : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * -speed);
         gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
-        Debug.Log(rb.velocity);
     }
 
     // Update is called once per frame

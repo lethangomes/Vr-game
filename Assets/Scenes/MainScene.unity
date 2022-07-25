@@ -175,6 +175,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!64 &7622579
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -307,6 +309,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!64 &111445478
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -443,6 +447,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!1 &343478483
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +547,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!64 &401452129
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -712,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3265988123561331384, guid: 53e719ee208eca34997624f44009144c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3265988123561331386, guid: 53e719ee208eca34997624f44009144c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2556,6 +2564,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!1 &1222951153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,6 +2747,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!1 &1553609954
 GameObject:
   m_ObjectHideFlags: 0
@@ -3198,9 +3210,9 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599365132}
-        m_TargetAssemblyTypeName: Sword, Assembly-CSharp
-        m_MethodName: changeState
+      - m_Target: {fileID: 1599365136}
+        m_TargetAssemblyTypeName: RevampedSword, Assembly-CSharp
+        m_MethodName: setActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3213,9 +3225,9 @@ MonoBehaviour:
   m_Activated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599365132}
-        m_TargetAssemblyTypeName: Sword, Assembly-CSharp
-        m_MethodName: changeState
+      - m_Target: {fileID: 1599365136}
+        m_TargetAssemblyTypeName: RevampedSword, Assembly-CSharp
+        m_MethodName: setActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3228,9 +3240,9 @@ MonoBehaviour:
   m_Deactivated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599365132}
-        m_TargetAssemblyTypeName: Sword, Assembly-CSharp
-        m_MethodName: changeState
+      - m_Target: {fileID: 1599365136}
+        m_TargetAssemblyTypeName: RevampedSword, Assembly-CSharp
+        m_MethodName: setActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3352,6 +3364,8 @@ MonoBehaviour:
   bladeParent: {fileID: 8790609949740870152, guid: e8ceeea5b30904845a914cbf65ea0ca3, type: 3}
   targetV: 15
   maxBeamLength: 3
+  coolDownLength: 0.1
+  coolingDown: 0
 --- !u!1 &1610463902
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,6 +3483,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 0
   _smoothVertices: 0
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!1 &1845432815
 GameObject:
   m_ObjectHideFlags: 0
@@ -4290,6 +4306,8 @@ MonoBehaviour:
   _useGravity: 1
   _shareVertices: 1
   _smoothVertices: 1
+  beingCut: 0
+  cuttingDisabled: 1
 --- !u!64 &2017032720
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4775,7 +4793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSlowAmount: 0.05
-  maxSlowTime: 5
+  maxSlowTime: 10
   slider: {fileID: 1553609954}
   rechargeRate: 1.5
 --- !u!82 &5222077470156120399

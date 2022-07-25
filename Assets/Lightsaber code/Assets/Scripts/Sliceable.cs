@@ -48,7 +48,7 @@ public class Sliceable : MonoBehaviour
         if (cuttingDisabled)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1)
+            if (timer > 0.0001)
             {
                 cuttingDisabled = false;
             }
