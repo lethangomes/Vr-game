@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RevampedSword : MonoBehaviour
 {
@@ -36,14 +37,13 @@ public class RevampedSword : MonoBehaviour
     {
         float distTraveled = Vector3.Distance(lastPos, tip.transform.position);
 
-        if(coolingDown)
-        {
-            active = false;
-        }
 
         //Debug.Log(distTraveled / Time.deltaTime);
 
-        if ((!madeBeamLastFrame && distTraveled/ (Time.deltaTime / Time.timeScale) > targetV) || (madeBeamLastFrame && distTraveled / (Time.deltaTime / Time.timeScale) > (targetV/2)) && currentBeamLength < maxBeamLength && active)
+        if (((!madeBeamLastFrame && distTraveled/ (Time.deltaTime / Time.timeScale) > targetV) || (madeBeamLastFrame && distTraveled / (Time.deltaTime / Time.timeScale) > (targetV/2)))
+            && currentBeamLength < maxBeamLength
+            && active 
+            && !coolingDown)
         {
             //Creates blade gameobject
             GameObject markerClone = Instantiate(marker, lastPos, Quaternion.identity);
@@ -57,9 +57,25 @@ public class RevampedSword : MonoBehaviour
             cylinderClone.transform.LookAt(markerClone.transform);
             cylinderClone.transform.localScale = new Vector3(0.01f, 0.01f, distTraveled / 2);
 
-            //Adds blades, and coresponding angles to list
-            blades.Add(cylinderClone);
-            swingAngles.Add(lastRot);
+            if(madeBeamLastFrame
+                && (findDifference(cylinderClone.transform.rotation.eulerAngles.x, blades[blades.Count - 1].transform.rotation.eulerAngles.x) > 45
+                || findDifference(cylinderClone.transform.rotation.eulerAngles.y, blades[blades.Count - 1].transform.rotation.eulerAngles.y) > 45
+                || findDifference(cylinderClone.transform.rotation.eulerAngles.z, blades[blades.Count - 1].transform.rotation.eulerAngles.z) > 45))
+            {
+                
+                coolingDown = true;
+                Destroy(cylinderClone);
+            }
+            else
+            {
+                
+
+                //Adds blades, and coresponding angles to list
+                blades.Add(cylinderClone);
+                swingAngles.Add(lastRot);
+            }
+
+            
             
 
             madeBeamLastFrame = true;
@@ -124,12 +140,16 @@ public class RevampedSword : MonoBehaviour
             {
                 timer = 0;
                 coolingDown = false;
-                active = true;
             }
         }
 
         lastPos = tip.transform.position;
         lastRot = tip.transform.rotation;
+    }
+
+    public float findDifference(float x, float y)
+    {
+        return Math.Abs(x - y);
     }
 
     public void setActive(bool newActive)
