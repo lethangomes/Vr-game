@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CutObject : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class CutObject : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(timer > 20)
+        if(timer > (20 / gameObject.name.Count(f => (f == '_'))))
         {
             transform.localScale -= new Vector3(initialScale.x * shrinkSpeed * Time.deltaTime, initialScale.y * shrinkSpeed * Time.deltaTime, initialScale.z * shrinkSpeed * Time.deltaTime);
         }
