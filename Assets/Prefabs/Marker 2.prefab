@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6a8083bfb350d4387d8da6e5b4da5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
+  speed: 1000
   aimAssistPower: 10000
   lastTimeScale: 1
 --- !u!1 &5721017203334606348
