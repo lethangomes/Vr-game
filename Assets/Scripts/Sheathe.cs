@@ -76,7 +76,6 @@ public class Sheathe : MonoBehaviour
         {
             scalar = 10;
         }
-        Debug.Log("hey");
         for (int i = 0; i < audioSources.Length; i++)
         {
             audioSources[i].pitch = Time.timeScale * scalar;

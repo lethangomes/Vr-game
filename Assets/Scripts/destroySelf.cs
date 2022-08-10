@@ -4,22 +4,15 @@ using UnityEngine;
 
 public class destroySelf : MonoBehaviour
 {
-    float timer = 0;
+    /*
+     * This script destroys an object after a set amount of time. Kind of redundant
+     */
     public float lifeSpan = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        timer += Time.deltaTime;
-        if(timer > lifeSpan)
-        {
-            Destroy(gameObject);
-        }
+        //destroys self after a given amount of time
+        Destroy(gameObject, lifeSpan);
     }
 }

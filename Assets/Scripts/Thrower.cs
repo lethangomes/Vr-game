@@ -25,10 +25,9 @@ public class Thrower : MonoBehaviour
         if(timer > spawnCoolDown)
         {
             int index = Random.Range(0, Objects.Length);
-            Debug.Log(index);
             GameObject thrownObject = Instantiate(Objects[index], transform.position + (Random.insideUnitSphere * spawnRadius), Quaternion.identity);
             transform.LookAt(GameObject.FindWithTag("MainCamera").transform);
-            thrownObject.GetComponent<Rigidbody>().AddTorque(Random.insideUnitSphere * 1000);
+            thrownObject.GetComponent<Rigidbody>().AddTorque(Random.insideUnitSphere * 1000 * thrownObject.GetComponent<Rigidbody>().mass);
             thrownObject.GetComponent<Rigidbody>().useGravity = false;
             activeThrownObjects.Add(thrownObject);
             thrownObjectTimers.Add(0);
@@ -42,9 +41,12 @@ public class Thrower : MonoBehaviour
             {
                 if(activeThrownObjects[i] != null)
                 {
-                    activeThrownObjects[i].GetComponent<Rigidbody>().AddForce(transform.forward * throwForce);
+                    Rigidbody rb = activeThrownObjects[i].GetComponent<Rigidbody>();
+                    rb.AddForce(transform.forward * throwForce * rb.mass);
+                    rb.useGravity = true;
+                    Destroy(activeThrownObjects[i], 20);
                 }
-                activeThrownObjects[i].GetComponent<Rigidbody>().useGravity = true;
+                
                 activeThrownObjects.RemoveAt(i);
                 thrownObjectTimers.RemoveAt(i);
             }

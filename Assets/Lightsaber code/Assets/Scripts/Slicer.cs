@@ -40,8 +40,14 @@ namespace Assets.Scripts
             positiveObject.GetComponent<MeshFilter>().mesh = positiveSideMeshData;
             negativeObject.GetComponent<MeshFilter>().mesh = negativeSideMeshData;
 
-            SetupCollidersAndRigidBodys(ref positiveObject, positiveSideMeshData, sliceable.UseGravity);
-            SetupCollidersAndRigidBodys(ref negativeObject, negativeSideMeshData, sliceable.UseGravity);
+            float objectMass = 1;
+            if(objectToCut.GetComponent<Rigidbody>() != null)
+            {
+                objectMass = objectToCut.GetComponent<Rigidbody>().mass;
+            }
+
+            SetupCollidersAndRigidBodys(ref positiveObject, positiveSideMeshData, sliceable.UseGravity, objectMass);
+            SetupCollidersAndRigidBodys(ref negativeObject, negativeSideMeshData, sliceable.UseGravity, objectMass);
             positiveObject.AddComponent<CutObject>();
             negativeObject.AddComponent<CutObject>();
 
@@ -84,13 +90,14 @@ namespace Assets.Scripts
         /// </summary>
         /// <param name="gameObject"></param>
         /// <param name="mesh"></param>
-        private static void SetupCollidersAndRigidBodys(ref GameObject gameObject, Mesh mesh, bool useGravity)
+        private static void SetupCollidersAndRigidBodys(ref GameObject gameObject, Mesh mesh, bool useGravity, float mass)
         {                     
             MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
             meshCollider.sharedMesh = mesh;
             meshCollider.convex = true;
 
             var rb = gameObject.AddComponent<Rigidbody>();
+            rb.mass = mass;
             rb.useGravity = useGravity;
         }
 

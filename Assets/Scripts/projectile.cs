@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bladeBeam : MonoBehaviour
+public class projectile : MonoBehaviour
 {
+    /*
+     * This is code for the "points" on the projectile the sword fires. They are the points connected by the blades, and they are what actually causes the projectile to move
+     */
+
+
     Rigidbody rb;
     public float speed = 50;
     public float aimAssistPower = 1;
@@ -14,6 +19,7 @@ public class bladeBeam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //gets game controller and rigidbody
         rb = gameObject.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * -speed);
         gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
@@ -33,7 +39,8 @@ public class bladeBeam : MonoBehaviour
 
     }
 
-
+    //this is from when I was experimenting with aim assist,
+    /*
     public GameObject FindClosestObject()
     {
         GameObject[] gos;
@@ -51,6 +58,7 @@ public class bladeBeam : MonoBehaviour
         }
         return closest;
     }
+    */
 
     //when timeScale is changed, changes velocity accordingly
     public void timeAltered(float factor)

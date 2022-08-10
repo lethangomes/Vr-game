@@ -35,5 +35,6 @@ public class Helicopter : MonoBehaviour
         //add rigidibody to rotors
         rotor.AddComponent<Rigidbody>();
         tailRotor.AddComponent<Rigidbody>();
+        Debug.Log("This script is doing things despite being disabled");
     }
 }

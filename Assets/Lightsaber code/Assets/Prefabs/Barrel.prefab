@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8854966530006619397}
   m_Layer: 0
   m_Name: Barrel
-  m_TagString: Explosive
+  m_TagString: Cuttable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

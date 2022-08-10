@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerHead : MonoBehaviour
 {
+    /*
+     * This is the script for an empty gameobject that is a child of the player head. It just follows the head around and copies the y rotation.
+     * This object makes it possible to me to have a sheathe attached to the "body" of the player
+     */
+
     public GameObject MainCamera;
     Quaternion targetAngle;
 

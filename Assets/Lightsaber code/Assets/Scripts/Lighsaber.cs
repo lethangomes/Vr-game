@@ -218,6 +218,7 @@ public class Lighsaber : MonoBehaviour
             {
                 score = 1000;
             }
+            gameController.addScore(score);
             GameObject scoreDisplayClone = Instantiate(scoreDisplay, other.gameObject.transform.position, Quaternion.identity);
             scoreDisplayClone.GetComponent<TextMeshPro>().SetText(score + "");
             Vector3 scale = new Vector3(((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f, ((float)score / 500) + 0.25f);
