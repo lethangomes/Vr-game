@@ -29,6 +29,17 @@ public class Thrower : MonoBehaviour
             transform.LookAt(GameObject.FindWithTag("MainCamera").transform);
             thrownObject.GetComponent<Rigidbody>().AddTorque(Random.insideUnitSphere * 1000 * thrownObject.GetComponent<Rigidbody>().mass);
             thrownObject.GetComponent<Rigidbody>().useGravity = false;
+
+            //disables all colliders on gameobject
+            Collider[] colliders = thrownObject.GetComponentsInChildren<Collider>();
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if(colliders[i] != null)
+                {
+                    colliders[i].enabled = false;
+                }
+            }
+
             activeThrownObjects.Add(thrownObject);
             thrownObjectTimers.Add(0);
             timer = 0;
@@ -45,6 +56,16 @@ public class Thrower : MonoBehaviour
                     rb.AddForce(transform.forward * throwForce * rb.mass);
                     rb.useGravity = true;
                     Destroy(activeThrownObjects[i], 20);
+
+                    //enables all colliders on gameobject
+                    Collider[] colliders = activeThrownObjects[i].GetComponentsInChildren<Collider>();
+                    for (int j = 0; j < colliders.Length; j++)
+                    {
+                        if (colliders[j] != null)
+                        {
+                            colliders[j].enabled = true;
+                        }
+                    }
                 }
                 
                 activeThrownObjects.RemoveAt(i);
