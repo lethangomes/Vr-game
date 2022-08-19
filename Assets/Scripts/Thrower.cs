@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Thrower : MonoBehaviour
 {
@@ -8,26 +9,39 @@ public class Thrower : MonoBehaviour
     public float spawnRadius = 1;
     public float spawnCoolDown = 1;
     public float throwForce = 100;
+    public int direction = 1;
+    public float speed = 10;
 
     float timer = 0;
+    Rigidbody rb;
     List<GameObject> activeThrownObjects = new List<GameObject>();
     List<float> thrownObjectTimers = new List<float>();
+    List<Vector3> thrownObjectAngles = new List<Vector3>();
+    GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindWithTag("MainCamera");
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //moving code
+        transform.LookAt(player.transform);
+        transform.position += transform.right * speed * direction * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, 10 + ((float)Math.Sin(Time.time) * 3), transform.position.z);
+
+
+
+        //throwing code
         if(timer > spawnCoolDown)
         {
-            int index = Random.Range(0, Objects.Length);
-            GameObject thrownObject = Instantiate(Objects[index], transform.position + (Random.insideUnitSphere * spawnRadius), Quaternion.identity);
-            transform.LookAt(GameObject.FindWithTag("MainCamera").transform);
-            thrownObject.GetComponent<Rigidbody>().AddTorque(Random.insideUnitSphere * 1000 * thrownObject.GetComponent<Rigidbody>().mass);
+            int index = UnityEngine.Random.Range(0, Objects.Length);
+            GameObject thrownObject = Instantiate(Objects[index], transform.position + (UnityEngine.Random.insideUnitSphere * spawnRadius), Quaternion.identity);
+            thrownObject.GetComponent<Rigidbody>().AddTorque(UnityEngine.Random.insideUnitSphere * 1000 * thrownObject.GetComponent<Rigidbody>().mass);
             thrownObject.GetComponent<Rigidbody>().useGravity = false;
 
             //disables all colliders on gameobject
@@ -42,6 +56,7 @@ public class Thrower : MonoBehaviour
 
             activeThrownObjects.Add(thrownObject);
             thrownObjectTimers.Add(0);
+            thrownObjectAngles.Add(transform.forward);
             timer = 0;
         }
 
@@ -53,7 +68,7 @@ public class Thrower : MonoBehaviour
                 if(activeThrownObjects[i] != null)
                 {
                     Rigidbody rb = activeThrownObjects[i].GetComponent<Rigidbody>();
-                    rb.AddForce(transform.forward * throwForce * rb.mass);
+                    rb.AddForce(thrownObjectAngles[i] * throwForce * rb.mass);
                     rb.useGravity = true;
                     Destroy(activeThrownObjects[i], 20);
 
@@ -70,6 +85,7 @@ public class Thrower : MonoBehaviour
                 
                 activeThrownObjects.RemoveAt(i);
                 thrownObjectTimers.RemoveAt(i);
+                thrownObjectAngles.RemoveAt(i);
             }
             else
             {
