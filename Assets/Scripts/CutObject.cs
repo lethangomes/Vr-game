@@ -31,8 +31,8 @@ public class CutObject : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        //Waits for 20 seconds divided by the number of times this object has been cut, and then shrinks the object before eventually destroying it
-        if(timer > (20 / gameObject.name.Count(f => (f == '_'))))
+        //Waits for 5 seconds divided by the number of times this object has been cut, and then shrinks the object before eventually destroying it
+        if(timer > (5 / gameObject.name.Count(f => (f == '_'))))
         {
             transform.localScale -= new Vector3(initialScale.x * shrinkSpeed * Time.deltaTime, initialScale.y * shrinkSpeed * Time.deltaTime, initialScale.z * shrinkSpeed * Time.deltaTime);
         }

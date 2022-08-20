@@ -12,16 +12,19 @@ public class Thrower : MonoBehaviour
     public int direction = 1;
     public float speed = 10;
 
+    GameController gameController;
     float timer = 0;
     Rigidbody rb;
     List<GameObject> activeThrownObjects = new List<GameObject>();
     List<float> thrownObjectTimers = new List<float>();
     List<Vector3> thrownObjectAngles = new List<Vector3>();
+    List<bool> sfxPlayed = new List<bool>();
     GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
         player = GameObject.FindWithTag("MainCamera");
         rb = GetComponent<Rigidbody>();
     }
@@ -57,7 +60,9 @@ public class Thrower : MonoBehaviour
             activeThrownObjects.Add(thrownObject);
             thrownObjectTimers.Add(0);
             thrownObjectAngles.Add(transform.forward);
+            sfxPlayed.Add(false);
             timer = 0;
+            gameController.playAudio("Warp", GetComponent<AudioSource>(), 0.05f);
         }
 
         
@@ -70,7 +75,7 @@ public class Thrower : MonoBehaviour
                     Rigidbody rb = activeThrownObjects[i].GetComponent<Rigidbody>();
                     rb.AddForce(thrownObjectAngles[i] * throwForce * rb.mass);
                     rb.useGravity = true;
-                    Destroy(activeThrownObjects[i], 20);
+                    Destroy(activeThrownObjects[i], 5);
 
                     //enables all colliders on gameobject
                     Collider[] colliders = activeThrownObjects[i].GetComponentsInChildren<Collider>();
@@ -82,13 +87,21 @@ public class Thrower : MonoBehaviour
                         }
                     }
                 }
+
                 
                 activeThrownObjects.RemoveAt(i);
                 thrownObjectTimers.RemoveAt(i);
                 thrownObjectAngles.RemoveAt(i);
+                sfxPlayed.RemoveAt(i);
             }
             else
             {
+                //plays sound slightly early so player can react
+                if(thrownObjectTimers[i] > 2.8f && !sfxPlayed[i])
+                {
+                    gameController.playAudio("Whoosh", GetComponent<AudioSource>(), 0.2f);
+                    sfxPlayed[i] = true;
+                }
                 thrownObjectTimers[i] += Time.deltaTime;
             }
             

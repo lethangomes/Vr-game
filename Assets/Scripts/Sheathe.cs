@@ -54,6 +54,7 @@ public class Sheathe : MonoBehaviour
         Time.timeScale = timeSlowAmount;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         timeSlowed = true;
+        gameController.playAudio("Clock Ticking", GetComponent<AudioSource>());
 
         adjustPitchToTimeScale();
     }
@@ -64,6 +65,7 @@ public class Sheathe : MonoBehaviour
         Time.timeScale = 1;
         Time.fixedDeltaTime = 0.02f;
         timeSlowed = false;
+        GetComponent<AudioSource>().Stop();
 
         adjustPitchToTimeScale();
     }
