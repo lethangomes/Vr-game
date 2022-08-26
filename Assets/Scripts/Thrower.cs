@@ -11,6 +11,8 @@ public class Thrower : MonoBehaviour
     public float throwForce = 100;
     public int direction = 1;
     public float speed = 10;
+    public bool oneShot = false;
+    public bool useGravity = true;
 
     GameController gameController;
     float timer = 0;
@@ -35,7 +37,11 @@ public class Thrower : MonoBehaviour
         //moving code
         transform.LookAt(player.transform);
         transform.position += transform.right * speed * direction * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, 10 + ((float)Math.Sin(Time.time) * 3), transform.position.z);
+        if(speed != 0)
+        {
+            transform.position = new Vector3(transform.position.x, 10 + ((float)Math.Sin(Time.time) * 3), transform.position.z);
+        }
+        
 
 
 
@@ -63,6 +69,10 @@ public class Thrower : MonoBehaviour
             sfxPlayed.Add(false);
             timer = 0;
             gameController.playAudio("Warp", GetComponent<AudioSource>(), 0.05f);
+            if(oneShot)
+            {
+                spawnCoolDown = 999999;
+            }
         }
 
         
@@ -74,8 +84,12 @@ public class Thrower : MonoBehaviour
                 {
                     Rigidbody rb = activeThrownObjects[i].GetComponent<Rigidbody>();
                     rb.AddForce(thrownObjectAngles[i] * throwForce * rb.mass);
-                    rb.useGravity = true;
                     Destroy(activeThrownObjects[i], 5);
+
+                    if(useGravity)
+                    {
+                        rb.useGravity = true;
+                    }
 
                     //enables all colliders on gameobject
                     Collider[] colliders = activeThrownObjects[i].GetComponentsInChildren<Collider>();
@@ -108,5 +122,29 @@ public class Thrower : MonoBehaviour
         }
         
         timer += Time.deltaTime;
+    }
+
+    //sets direction thrower orbits
+    public void setDirection(bool newDirection)
+    {
+        if(newDirection)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+        
+    }
+
+    //destroys self and all objects
+    public void selfDestruct()
+    {
+        activeThrownObjects.ForEach(delegate (GameObject thisObject)
+        {
+            Destroy(thisObject);
+        });
+        Destroy(gameObject);
     }
 }
