@@ -45,6 +45,7 @@ public class Lighsaber : MonoBehaviour
 
     public GameObject explosion;
     public GameObject scoreDisplay;
+    Sheathe sheathe;
 
     private Mesh _mesh;
     private Vector3[] _vertices;
@@ -84,6 +85,7 @@ public class Lighsaber : MonoBehaviour
         _previousBasePosition = _base.transform.position;
 
         gameController = GameObject.FindWithTag("GameController").GetComponent<GameControllerObject>().getGameController();
+        sheathe = GameObject.FindWithTag("Sheathe").GetComponent<Sheathe>();
         audioSource = GetComponent<AudioSource>();
     }
     
@@ -232,6 +234,7 @@ public class Lighsaber : MonoBehaviour
             }
 
             other.gameObject.GetComponent<Sliceable>().endCut();
+            sheathe.addTime(1);
         }
         
     }

@@ -3625,15 +3625,15 @@ GameObject:
   - component: {fileID: 1977151848}
   - component: {fileID: 1977151847}
   - component: {fileID: 1977151846}
-  - component: {fileID: 1977151845}
   - component: {fileID: 1977151844}
+  - component: {fileID: 1977151845}
   m_Layer: 0
   m_Name: Sword Stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1977151844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3667,10 +3667,10 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TargetSpawner, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1977151843}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4052,7 +4052,7 @@ GameObject:
   - component: {fileID: 5222077470156120399}
   m_Layer: 0
   m_Name: Sheathe
-  m_TagString: Untagged
+  m_TagString: Sheathe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

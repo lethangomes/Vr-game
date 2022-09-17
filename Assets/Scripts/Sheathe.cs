@@ -84,16 +84,13 @@ public class Sheathe : MonoBehaviour
         }
     }
 
-    //when a blade beam is fired, ends time slow and resets timer if time is slowed
-    public void bladeBeamFired()
+    //increases time that time is slowed
+    public void addTime(float amount)
     {
-        if (timeSlowed)
+        if (timeSlowed && timer < maxSlowTime)
         {
-            timer -= 4;
-            if(timer < 0)
-            {
-                timer = 0;
-            }
+            timer += amount;
+            
         }
     }
 }

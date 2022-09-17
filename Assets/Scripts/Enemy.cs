@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
                 if(timer > stateLength)
                 {
                     reset();
+                    state = BIG_ATTACK;
                 }
 
                 phaseTimer += Time.deltaTime;
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour
                 break;
             case BIG_ATTACK:
 
-                if(phaseTimer > 1 && timer < 5)
+                if(phaseTimer > 1 && timer < 3 + round)
                 {
                     /*
                     Vector2 randomPoint = Random.insideUnitCircle * 5;
@@ -65,9 +66,10 @@ public class Enemy : MonoBehaviour
                     phaseTimer = 0;
                 }
 
-                if(timer > 15)
+                if(timer > 8 + round)
                 {
                     reset();
+                    state = DEFAULT;
                     round++;
                 }
 
@@ -89,7 +91,6 @@ public class Enemy : MonoBehaviour
     {
         destroyAllThrowers();
         activeThrowers = new List<GameObject>();
-        state = BIG_ATTACK;
         timer = 0;
         phaseTimer = 0;
     }

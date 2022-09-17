@@ -83,7 +83,7 @@ public class Thrower : MonoBehaviour
                 if(activeThrownObjects[i] != null)
                 {
                     Rigidbody rb = activeThrownObjects[i].GetComponent<Rigidbody>();
-                    rb.AddForce(thrownObjectAngles[i] * throwForce * rb.mass);
+                    rb.AddForce((thrownObjectAngles[i] * throwForce * rb.mass)/ Time.timeScale);
                     Destroy(activeThrownObjects[i], 5);
 
                     if(useGravity)

@@ -54,9 +54,11 @@ MonoBehaviour:
   - {fileID: 3664856409417695546, guid: f8cb1ae85bcc0f241953c9f737c6dc86, type: 3}
   spawnRadius: 1
   spawnCoolDown: 4
-  throwForce: 2000
+  throwForce: 1000
   direction: 1
   speed: 10
+  oneShot: 0
+  useGravity: 0
 --- !u!54 &4500774779292967202
 Rigidbody:
   m_ObjectHideFlags: 0

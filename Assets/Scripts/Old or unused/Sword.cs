@@ -84,7 +84,7 @@ public class Sword : MonoBehaviour
                 projectile.transform.SetParent(midMarker.transform);
 
                 //ends timeslow if time has been slowed
-                sheathe.bladeBeamFired();
+                //sheathe.bladeBeamFired();
 
             }
             initialPos = tip.transform.position;
